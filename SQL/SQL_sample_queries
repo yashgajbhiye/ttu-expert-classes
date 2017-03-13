@@ -1,0 +1,52 @@
+INNER JOIN EXAMPLES:	
+	
+	SELECT city_id, city, country 
+	FROM city 
+	INNER JOIN country on city.country_id=country.country_id;
+
+	SELECT ci.city_id, ci.city, co.country 
+	FROM city ci 
+	INNER JOIN country co on ci.country_id=co.country_id 
+	WHERE co.country='United States';
+
+	SELECT ci.city_id, ci.city, co.country 
+	FROM city ci 
+	INNER JOIN country co on ci.country_id=co.country_id 
+	WHERE co.country='United States' AND city LIKE 'A%';
+
+LEFT OUTER JOIN example:
+
+	SELECT * FROM rental 
+	LEFT OUTER JOIN payment ON rental.rental_id=payment.rental_id;
+
+RIGHT OUTER JOIN example:
+
+	SELECT * FROM rental  
+	RIGHT OUTER JOIN inventory ON rental.inventory_id=inventory.inventory_id 
+	WHERE rental_id is null;
+
+
+Aggregate function examples:
+
+	SELECT cu.customer_id, cu.first_name, cu.last_name, pay.amount 
+	FROM customer cu 
+	INNER JOIN payment pay ON cu.customer_id=pay.customer_id
+
+	SELECT cu.customer_id, cu.first_name, cu.last_name, SUM(pay.amount) 
+	FROM customer cu 
+	INNER JOIN payment pay ON cu.customer_id=pay.customer_id
+	GROUP BY cu.customer_id, cu.first_name, cu.last_name
+
+
+	SELECT cu.customer_id, cu.first_name, cu.last_name, SUM(pay.amount) 
+	FROM customer cu 
+	INNER JOIN payment pay ON cu.customer_id=pay.customer_id
+	GROUP BY cu.customer_id, cu.first_name, cu.last_name
+	ORDER BY cu.customer_id
+
+
+	SELECT cu.customer_id, cu.first_name, cu.last_name, SUM(pay.amount) as total
+	FROM customer cu inner join payment pay ON cu.customer_id=pay.customer_id
+	GROUP BY cu.customer_id, cu.first_name, cu.last_name
+	HAVING SUM(pay.amount)>100
+	ORDER BY cu.first_name
